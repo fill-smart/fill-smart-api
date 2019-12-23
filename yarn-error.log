@@ -1,0 +1,63 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js install
+
+PATH: 
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Ezequiel\bin;C:\Program Files (x86)\Common Files\Quest Shared\instantclient-basic-nt-12.1.0.2.0;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\iis express\PHP\v5.6;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\dotnet;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Microsoft VS Code\bin;C:\Users\Martin\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\dotnet;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_201\bin;C:\Android\android-sdk\tools;C:\Android\android-sdk\platform-tools;C:\Android\android-sdk\tools\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Git\cmd;C:\Program Files\PuTTY;C:\Users\Ezequiel\AppData\Local\Android\Sdk;C:\Users\Ezequiel\AppData\Local\Android\Sdk\tools;C:\Users\Ezequiel\AppData\Local\Android\Sdk\platform-tools;C:\OpenSSL-Win64\bin;C:\Program Files\Microsoft\Web Platform Installer;C:\Users\Ezequiel\.windows-build-tools\python27;C:\Users\Ezequiel\AppData\Roaming\npm\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;C:\Users\Ezequiel\AppData\Roaming\npm\node_modules\windows-build-tools\node_modules\.bin;C:\Users\Ezequiel\AppData\Roaming\npm\node_modules\.bin;C:\Users\Ezequiel\AppData\Local\Microsoft\WindowsApps;C:\Users\Ezequiel\AppData\Roaming\npm;C:\Users\Ezequiel\.dotnet\tools;C:\Program Files\nodejs;D:\Anaconda;D:\Anaconda\Scripts;D:\Anaconda\Library\bin;C:\xampp\mysql\bin;C:\Program Files (x86)\Yarn\bin;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn;C:\Users\Ezequiel\AppData\Local\Programs\Python;C:\Users\Ezequiel\AppData\Local\Yarn\bin
+
+Yarn version: 
+  1.19.1
+
+Node version: 
+  10.16.2
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/fillsmart-common: Not found
+      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:66035:18)
+      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140564:22)
+      at Request.emit (events.js:198:13)
+      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141536:10)
+      at Request.emit (events.js:198:13)
+      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141458:12)
+      at Object.onceWrapper (events.js:286:20)
+      at IncomingMessage.emit (events.js:203:15)
+      at endReadableNT (_stream_readable.js:1145:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
+
+npm manifest: 
+  {
+      "name": "server",
+      "version": "1.0.0",
+      "description": "",
+      "scripts": {
+          "test": "echo \"Error: no test specified\" && exit 1"
+      },
+      "author": "",
+      "license": "ISC",
+      "dependencies": {
+          "apollo-server": "^2.9.13",
+          "apollo-server-express": "^2.9.13",
+          "express": "^4.17.1",
+          "graphql": "^14.5.8",
+          "mariadb": "^2.1.4",
+          "sequelize": "^5.21.2",
+          "fillsmart-common": "*"
+      },
+      "devDependencies": {
+          "@types/node-fetch": "^2.5.4",
+          "gulp": "^4.0.2",
+          "gulp-nodemon": "^2.4.2",
+          "gulp-typescript": "^6.0.0-alpha.1",
+          "nodemon": "^2.0.1",
+          "ts-node": "^8.5.4",
+          "typescript": "^3.7.3"
+      }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

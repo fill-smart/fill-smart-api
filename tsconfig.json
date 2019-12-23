@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "es2015",
+        "module": "commonjs",
+        "sourceMap": true,
+        "strict": true,
+        "esModuleInterop": true,
+        "baseUrl": "./",
+        "paths": {
+            "fillsmart-common": ["../common/*"]
+        },
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
+    }
+}

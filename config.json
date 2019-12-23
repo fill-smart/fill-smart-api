@@ -1,0 +1,9 @@
+{
+    "database": {
+        "name": "fillsmart",
+        "user": "root",
+        "password": "",
+        "port": 3306,
+        "host": "localhost"
+    }
+}
