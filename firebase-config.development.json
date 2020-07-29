@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "fillsmart-development",
+  "private_key_id": "add8c0159e45efb6ea5705eabe61181e637cacde",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDF4ByhPEYb230J\nZEw9t8XzbemGEKmgyde7LiOdxdCsXN8fnj8Ug1yjJfs8eBvDrngT9qB+Jglq23uy\nhyn5+F6pl4Icp1rHC26e2zNrTChkkQmQdnSfqENzGGibBLjuD9ubWJRov4qj789A\nx24XQawJUz+k8OxIiblBXwP1ZUoBv8U9jgfpAQ3dZOlzawAU32WTSb1vtdZTmRJY\nGuu1icdJ4pSn2/mQVcfSMHNSv7v4xhS0OMlbglWM8T8LrRnBFOEjfKRHwK84YuTP\nBqH0vW19wwljgzcobJBgzSlbl8TqEUGXvdVYzentDkP5s1P6Ak7SowLIiWZkP4NL\nQXVd+bM/AgMBAAECggEAXSlsYU829POsVWkm6iHlbXxwp4Gd04lkbAjHlQcm/ZfG\nJyVCrr5ANcHynOAxtjok58VEf9AZu/k1LnMrxLh2nSMri6ERgMg1n0410c0r8VlF\n5wGWW/sFMqGp0l5xUQgfTW7xhLW1qQSFkAq1Hvb47/UFcHtLy8Un9wqsmvNC2joh\nqXPQ1c4EQDx5YrinB+FW3cym/3hXEmN/HpT1GlildfWtAm792KXizXJaEhHzDIew\n2Z/HIWl8LHN5RJOv/tbZcetq5pH7Lt9I8SR+BRQxEKioWxLcFIGB5bNSyEIXqD2g\nYaICw0+SaKChhp/Pwgsf9iwsAam+clh5BSau/3N2zQKBgQD+2FWxv+ztvhEI+v4T\nU1QST6zrmzBoaeK5ExobBbVsE09CeEbzpHRMP66uWCHc3lvFQuYrcYcUA/ves7q4\nJU+JcjFEAnOSwP0OLrQ8sdVjoGEE8f5n65ESyw1MU0Tk7jNEs4sTpO+qwoSlcp+t\neriV0bLZ6Uz5AcLzuwF5N1I/IwKBgQDGxa6piZu11szCYXOVw7PU/8HuwXcGnuzI\nlhL5p1LDSm2t0orgx6fCMP1rdCOLHH/6boJSK+b5Uhp4IC9Oyo/FtY9iywMuVrrL\nXCGq3tIzSIiNKuhZLi8SnQcsjDr/ZH2lJrff4RuELlEAQ+dQR1ozL/AjLovwK2rq\nLN6zSKVrNQKBgHn7AKGQ9Q4iwLKkuMJ1SzNskZ9Aa94+eHgPrZorlFgDshdlzMhH\n+iaZALqQkrzObeywhc1bjMVG1uMU8hW8PiLS1sPvzHP9DeMg9cJreHE0Tdv5HMWP\nGqR9LoNPBBXz8fQ7YCFp/BGnA6jRgZ6etAV6Fvp40hAKCM9yvlTP5v0zAoGBAL2/\nxGavqGdD8B+3K8HSGn/Azv7+zIMTf3JUYTTV2Bn5mQ4QKOc/cRPd9G15ZtzLjhgh\nGmMa6dkj2YTHJKIQmILiOUjUB+tae+LZxoH5R6wRF9m7FibcAa/BGzIZg9B9u7vG\nZE1h9QSPul+Icu6dzquCnbjYHFpe+CcoQkffl5npAoGAEn3l0zw740mR6R7J1aPT\nub0HeGvZA8AOJMEdzaI0Tec+R76hAbY+Qr9hnpGGthY3N6VsLjTzQZCRxNpvVS9q\nzWVEfB6kZrslSRy64qntEiuYTfcMZ2fezzuzTL9OjM1TP42rHyaT5T/OyJ9/wp4A\nXNMGE0qvlKBMzbHlgCDiMxI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-65vee@fillsmart-development.iam.gserviceaccount.com",
+  "client_id": "110539659611681277483",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-65vee%40fillsmart-development.iam.gserviceaccount.com"
+}

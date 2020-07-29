@@ -5,10 +5,7 @@
         "sourceMap": true,
         "strict": true,
         "esModuleInterop": true,
-        "baseUrl": "./",
-        "paths": {
-            "fillsmart-common": ["../common/*"]
-        },
+        "baseUrl": "./",        
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true
     }

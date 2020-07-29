@@ -1,0 +1,25 @@
+{
+  "database": {
+    "name": "fillsmart",
+    "user": "root",
+    "password": "",
+    "port": 3306,
+    "host": "localhost",
+    "logging": ["query"],
+    "synchronize": true,
+    "backupDirectory": "/var/www/vhosts/fillsmart/backups"
+  },
+  "scheduledMaintenanceCheckInterval": 60,
+  "gracePeriodDays": 14,
+  "secretToken": "ThisTokenIsSecretDoNotShareIt",
+  "serverUrl": "https://69d7db6a.ngrok.io",
+  "mercadoPagoSecret": "APP_USR-8280586274376232-020418-57970cd4ec939dad6c924f91d810b1e1-522546691",
+  "googleMapsApiKey": "AIzaSyCLiWaPVhixO92PYqMwZAy8snMJ3_oTl5Q",
+  "mailer": {
+    "service": "gmail",
+    "user": "fillsmart.staging@gmail.com",
+    "password": "f1llsm4rt2020",
+    "alias": "FillSmart"
+  },
+  "enablePlayground": true
+}

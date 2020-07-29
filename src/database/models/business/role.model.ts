@@ -1,5 +1,5 @@
 import { Column, Entity, EntityManager, getManager } from "typeorm";
-import { BaseModel } from "../base.model";
+import { BaseModel } from "./../../../core/models/base.model";
 
 @Entity()
 export class Role extends BaseModel {
@@ -18,5 +18,8 @@ export class Role extends BaseModel {
 
 export enum RolesEnum {
     Administrator = "administrator",
-    Customer = "customer"
+    Customer = "customer",
+    Seller = "seller",
+    GasStationAdministrator = "gas_station_administrator",
+    CoverageOperator = "coverage_operator"
 }

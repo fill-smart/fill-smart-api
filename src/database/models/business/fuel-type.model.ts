@@ -1,5 +1,5 @@
 import { Entity, Column, EntityManager, getManager } from "typeorm";
-import { BaseModel } from "../base.model";
+import { BaseModel } from './../../../core/models/base.model';
 
 @Entity()
 export class FuelType extends BaseModel {

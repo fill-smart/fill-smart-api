@@ -4,6 +4,10 @@
         "user": "root",
         "password": "",
         "port": 3306,
-        "host": "localhost"
-    }
+        "host": "localhost",
+        "logging": ["query"],
+        "synchronize": true
+    },
+    "scheduledMaintenanceCheckInterval": 60,
+    "secretToken": "ThisTokenIsSecretDoNotShareIt"
 }

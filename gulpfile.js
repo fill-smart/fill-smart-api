@@ -35,7 +35,7 @@ gulp.task("nodemon", cb => {
 });
 
 gulp.task("watch", () => {
-    return gulp.watch(["src/**/*.ts", "src/**/*.json"], gulp.series("compile"));
+    return gulp.watch(["src/**/*.ts", "src/**/*.json","src/**/*.graphql","src/**/*.ejs"], gulp.series("compile"));
 });
 
 gulp.task("default", gulp.parallel("watch", gulp.series("compile", "nodemon")));

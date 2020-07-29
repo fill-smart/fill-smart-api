@@ -1,6 +1,6 @@
 import { FuelType } from "./fuel-type.model";
 import { Entity, Column, ManyToOne, EntityManager, getManager } from "typeorm";
-import { BaseModel } from "../base.model";
+import { BaseModel } from './../../../core/models/base.model';
 
 @Entity()
 export class FuelPrice extends BaseModel {
@@ -11,7 +11,7 @@ export class FuelPrice extends BaseModel {
     to: Date | null = null;
 
     @Column("double")
-    price: Number = 0;
+    price: number = 0;
 
     @ManyToOne(_ => FuelType)
     fuelType?: Promise<FuelType>;

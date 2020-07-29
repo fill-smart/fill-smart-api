@@ -1,3 +1,4 @@
+import { Purchase } from './purchase.model';
 import { Customer } from "./customer.model";
 import { FuelType } from "./fuel-type.model";
 import {
@@ -8,8 +9,7 @@ import {
     EntityManager,
     getManager
 } from "typeorm";
-import { BaseModel } from "../base.model";
-import { Operation } from "./operation.model";
+import { BaseModel } from './../../../core/models/base.model';
 
 @Entity()
 export class Wallet extends BaseModel {
@@ -22,8 +22,8 @@ export class Wallet extends BaseModel {
     @ManyToOne(_ => Customer)
     customer?: Promise<Customer>;
 
-    @OneToMany(_ => Operation, "wallet")
-    operations?: Promise<Operation[]>;
+    @OneToMany(_ => Purchase, "wallet")
+    purchases?: Promise<Purchase[]>;
 
     public static getByCustomerAndFuelType(
         customerId: number,

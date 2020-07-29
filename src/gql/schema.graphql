@@ -1,0 +1,1378 @@
+scalar DateTime
+scalar Date
+
+enum UserRoles {
+  ADMINISTRATOR
+  CUSTOMER
+  SELLER
+  GAS_STATION_ADMINISTRATOR
+  COVERAGE_OPERATOR
+}
+
+enum InvestmentMovementType {
+  SALE
+  PURCHASE
+}
+
+"Restricts what an User can do"
+type Role {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  name: UserRoles!
+}
+
+type RoleResult {
+  pageInfo: PageInfo!
+  result: [Role!]!
+}
+
+"Entities that interact with the system"
+type User {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  username: String!
+  roles: [Role!]!
+  documents: [Document!]!
+  customer: Customer
+  seller: Seller
+  gasStationAdministrator: GasStationAdministrator
+  coverageOperator: CoverageOperator
+  fcmTokens: [FcmToken!]!
+}
+
+type UserResult {
+  pageInfo: PageInfo!
+  result: [User!]!
+}
+
+enum FcmTokenStatus {
+  ACTIVE
+  INACTIVE
+}
+
+"Entities that interact with the system"
+type FcmToken {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  token: String!
+  customer: User!
+}
+
+type FcmTokenResult {
+  pageInfo: PageInfo!
+  result: [FcmToken!]!
+}
+
+"Classsification of documents"
+type DocumentType {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  name: String!
+}
+
+type DocumentTypeResult {
+  pageInfo: PageInfo!
+  result: [DocumentType!]!
+}
+
+"Classsification of fuels"
+type FuelType {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  name: String!
+  currentPrice: FuelPrice!
+  previousPrice: FuelPrice!
+}
+
+type FuelTypeResult {
+  pageInfo: PageInfo!
+  result: [FuelType!]!
+}
+
+"Price of a certain type of fuel on a given date"
+type FuelPrice {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  from: DateTime!
+  to: DateTime
+  price: Float!
+  fuelType: FuelType!
+}
+
+type FuelPriceResult {
+  pageInfo: PageInfo!
+  result: [FuelPrice!]!
+}
+
+"Gas Stations"
+type GasStation {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  name: String!
+  lat: Float!
+  lng: Float!
+  address: String!
+  pumps: [Pump!]!
+  gasTanks: [GasTank!]!
+  sellers: [Seller!]!
+  pumpsCount: Int!
+  purchaseRequireAuthorization: Boolean!
+}
+
+type GasStationResult {
+  pageInfo: PageInfo!
+  result: [GasStation!]!
+}
+
+"Gas Stations"
+type Pump {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  externalId: String!
+  gasStation: GasStation!
+  refuels: [Refuel!]!
+  lastExternalOperation: ExternalOperation
+}
+
+type ExternalOperation {
+  id: ID!
+  stamp: DateTime!
+  fuelType: FuelType!
+  litres: Float!
+  fuelPrice: Float!
+  total: Float!
+}
+
+type PumpResult {
+  pageInfo: PageInfo!
+  result: [Pump!]!
+}
+
+"Gas Tanks"
+type GasTank {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  gasStation: GasStation!
+  fuelType: FuelType!
+  externalId: String!
+  litres: Float!
+}
+
+type GasTankResult {
+  pageInfo: PageInfo!
+  result: [GasTank!]!
+}
+
+"Sellers"
+type Seller {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  name: String!
+  gasStation: GasStation!
+  user: User!
+  authorizations: [Authorization!]!
+}
+
+type SellerResult {
+  pageInfo: PageInfo!
+  result: [Seller!]!
+}
+
+"Gas Station Administrators"
+type GasStationAdministrator {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  name: String!
+  gasStation: GasStation!
+  user: User!
+}
+
+type GasStationAdministratorResult {
+  pageInfo: PageInfo!
+  result: [GasStationAdministrator!]!
+}
+
+"Coverage Operators"
+type CoverageOperator {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  name: String!
+  gasStation: GasStation!
+  user: User!
+}
+
+type CoverageOperatorResult {
+  pageInfo: PageInfo!
+  result: [CoverageOperator!]!
+}
+
+"Investment Types"
+type InvestmentType {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  name: String!
+}
+
+type InvestmentTypeResult {
+  pageInfo: PageInfo!
+  result: [InvestmentType!]!
+}
+
+"Quotes"
+type Quote {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  price: Float!
+  from: DateTime!
+  to: DateTime
+  investmentType: InvestmentType!
+  parentQuote: Quote
+  arsEquivalent: Float!
+}
+
+type QuoteResult {
+  pageInfo: PageInfo!
+  result: [Quote!]!
+}
+
+"Investments"
+type Investment {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  ammount: Float!
+  stamp: DateTime!
+  dueDate: DateTime!
+  investmentType: InvestmentType!
+  quote: Quote!
+  movementType: InvestmentMovementType!
+}
+
+type InvestmentResult {
+  pageInfo: PageInfo!
+  result: [Investment!]!
+}
+
+"Images uploaded to the system"
+type Image {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  base64: String!
+}
+
+type ImageResult {
+  pageInfo: PageInfo!
+  result: [Image!]!
+}
+
+"Documentation uploaded to the system by users"
+type Document {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  documentData: String
+  image: Image
+  documentType: DocumentType!
+  customer: Customer!
+}
+
+type DocumentResult {
+  pageInfo: PageInfo!
+  result: [Document!]!
+}
+
+"""
+ACTIVE: The account is ready to perform operations
+INACTIVE: The account needs some aditional validation in order to be active
+"""
+enum AccountStatus {
+  ACTIVE
+  INACTIVE
+}
+
+"People that perform operations on the Mobile App"
+type Customer {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  firstName: String!
+  lastName: String!
+  documentNumber: String!
+  born: DateTime!
+  phone: String!
+  status: AccountStatus!
+  user: User!
+  documents: [Document!]!
+  wallets: [Wallet!]!
+  profileImage: String!
+  cbu: String
+  cbuAlias: String
+  mercadopagoAccount: String
+}
+
+type CustomerResult {
+  pageInfo: PageInfo!
+  result: [Customer!]!
+}
+
+"Contains the litres of a certain fuel type that a customer holds"
+type Wallet {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  fuelType: FuelType!
+  litres: Float!
+  availableLitres(dueDate: DateTime): Float!
+  customer: Customer!
+}
+
+type WalletResult {
+  pageInfo: PageInfo!
+  result: [Wallet!]!
+}
+
+"""
+COMPLETED: The operation is complete and the fuel has been either substracted or added.
+PENDING: The operation is awaiting for a third party confirmation.
+"""
+enum PurchaseStatus {
+  COMPLETED
+  PENDING
+}
+
+"""
+CASH: The customer pays in cash directly on the gas station.
+MERCADOPAGO: The customer will use Mercadopago make the payment.
+"""
+enum PaymentMethods {
+  CASH
+  MERCADOPAGO
+}
+
+"Contains the litres of a certain fuel type that a customer holds"
+type Purchase {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  fuelPrice: FuelPrice!
+  litres: Float!
+  wallet: Wallet!
+  stamp: DateTime!
+  status: PurchaseStatus!
+  paymentMethod: PaymentMethods!
+  preferenceId: String!
+  preferenceUrl: String!
+  gasStation: GasStation
+  authorization: Authorization
+}
+
+type PurchaseResult {
+  pageInfo: PageInfo!
+  result: [Purchase!]!
+}
+
+"Contains all data associated to a refuel operation"
+type Refuel {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  stamp: DateTime!
+  litres: Float!
+  fuelType: FuelType!
+  fuelPrice: FuelPrice!
+  pump: Pump!
+  externalId: Int
+  wallet: Wallet!
+  walletFuelPrice: FuelPrice!
+  walletLitres: Float
+  authorization: Authorization!
+}
+
+type RefuelResult {
+  pageInfo: PageInfo!
+  result: [Refuel!]!
+}
+
+"Contains all data associated to a fuel exchange operation"
+type FuelExchange {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  stamp: DateTime!
+  targetLitres: Float!
+  sourceWallet: Wallet!
+  targetWallet: Wallet!
+  sourceFuelPrice: FuelPrice!
+  targetFuelPrice: FuelPrice!
+}
+
+type FuelExchangeResult {
+  pageInfo: PageInfo!
+  result: [FuelExchange!]!
+}
+
+"Contains all data associated to a cash withdrawal operation"
+type CashWithdrawal {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  stamp: DateTime!
+  litres: Float!
+  wallet: Wallet!
+  fuelPrice: FuelPrice!
+  gasStation: GasStation!
+  authorization: Authorization!
+}
+
+type CashWithdrawalResult {
+  pageInfo: PageInfo!
+  result: [CashWithdrawal!]!
+}
+
+type TransferWithdrawal {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  stamp: DateTime
+  code: String
+  authorized: Boolean
+  withdrawal: CashWithdrawal!
+  authorizer: User
+  accountType: String
+}
+
+type TransferWithdrawalResult {
+  pageInfo: PageInfo!
+  result: [TransferWithdrawal!]!
+}
+
+type Transfer {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  stamp: DateTime!
+  targetLitres: Float!
+  sourceWallet: Wallet!
+  targetWallet: Wallet!
+}
+
+type TransferResult {
+  pageInfo: PageInfo!
+  result: [Transfer!]!
+}
+
+"Contains all data associated to a shop purchase operation"
+type ShopPurchase {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  stamp: DateTime!
+  litres: Float!
+  wallet: Wallet!
+  fuelPrice: FuelPrice!
+  gasStation: GasStation!
+  description: String!
+  authorization: Authorization!
+}
+
+type ShopPurchaseResult {
+  pageInfo: PageInfo!
+  result: [ShopPurchase!]!
+}
+
+"Contains all data associated to a operation [READONLY]"
+type Operation {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  stamp: DateTime!
+  fuelTypeId: Int!
+  fuelTypeName: String!
+  fuelPrice: Float
+  customerFirstName: String!
+  customerLastName: String!
+  gasStationId: Int
+  gasStationName: String
+  customerDocumentNumber: String!
+  litres: Float!
+  operationTypeId: Int!
+  operationTypeName: String!
+  pumpExternalId: String
+  authorizationStatus: String
+  exchangeSourceFuelType: String
+  userId: Int!
+  paymentMethod: String
+  total: Float!
+  targetCustomerFirstName: String
+  targetCustomerLastName: String
+  targetCustomerDocumentNumber: String
+  transferWithdrawalId: ID
+  transferWithdrawalAuthorized: Boolean
+  transactionId: String!
+}
+
+type OperationResult {
+  pageInfo: PageInfo!
+  result: [Operation!]!
+}
+
+"Contains total sold and delivered by fuel_type and customer [READONLY]"
+type OperationTotalsByFuelType {
+  fuelTypeId: Int!
+  fuelTypeName: String!
+  customerDocumentNumber: Int!
+  customerFirstName: String!
+  customerLastName: String!
+  totalSold: Float!
+  totalDelivered: Float!
+  totalPending: Float!
+}
+
+type OperationTotalsByFuelTypeResult {
+  pageInfo: PageInfo!
+  result: [OperationTotalsByFuelType!]!
+}
+
+"Contains total sold and delivered by customer [READONLY]"
+type OperationTotalsByCustomer {  
+  customerDocumentNumber: Int!
+  customerFirstName: String!
+  customerLastName: String!
+  totalSold: Float!
+  totalDelivered: Float!
+  totalPending: Float!
+}
+
+type OperationTotalsByCustomerResult {
+  pageInfo: PageInfo!
+  result: [OperationTotalsByCustomer!]!
+}
+
+enum AuthorizationStatus {
+  PENDING
+  AUTHORIZED
+  REJECTED
+}
+
+type Authorization {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  stamp: DateTime!
+  status: AuthorizationStatus!
+  refuel: Refuel
+  cashWithdrawal: CashWithdrawal
+  shopPurchase: ShopPurchase
+  purchase: Purchase
+}
+
+type AuthorizationResult {
+  pageInfo: PageInfo!
+  result: [Authorization!]!
+}
+
+type Notification {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  stamp: DateTime!
+  title: String!
+  text: String!
+}
+
+type NotificationResult {
+  pageInfo: PageInfo!
+  result: [Notification!]!
+}
+
+type CashDeposit {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+  deleted: Boolean!
+  stamp: DateTime!
+  amount: Float!
+  gasStation: GasStation!
+  receipt: String!
+}
+
+type CashDepositResult {
+  pageInfo: PageInfo!
+  result: [CashDeposit!]!
+}
+
+type APIInfo {
+  version: String!
+  hash: String!
+}
+
+"Contains information related to pagination"
+type PageInfo {
+  total: Int!
+}
+
+input QueryCriteria {
+  max: Int
+  skip: Int
+  """
+  eg: {
+          "property":"customer.type.name",
+          "type":"eq",
+          "value":"John"
+      }
+  """
+  filter: String
+  sort: String
+}
+
+type TermsConditions {
+  id: ID!
+  terms: String!
+  created: DateTime!
+}
+
+type TermsConditionsResult {
+  pageInfo: PageInfo!
+  result: [TermsConditions!]!
+}
+
+##Queries
+type Query {
+  me: User!
+  gracePeriod: Int!
+  exchangeGracePeriod: Int!
+  purchaseMaxLitres: Int!
+  withdrawalMaxAmount: Int!
+  withdrawalAmountMultiple: Int!
+  paymentInStoreLimit: Int!
+  contactHelpEmails: String!
+  walletLitresLimit: Int!
+  accountLitresLimit: Int!
+  authorizations(criteria: QueryCriteria): AuthorizationResult!
+  authorizationById(id: ID!): Authorization
+  customers(criteria: QueryCriteria): CustomerResult!
+  customerById(id: ID!): Customer
+  documentTypes(criteria: QueryCriteria): DocumentTypeResult!
+  documentTypeById(id: ID!): DocumentType
+  documents(criteria: QueryCriteria): DocumentResult!
+  documentById(id: ID!): Document
+  fuelPrices(criteria: QueryCriteria): FuelPriceResult!
+  fuelPriceById(id: ID!): FuelPrice
+  fuelTypes(criteria: QueryCriteria): FuelTypeResult!
+  fuelTypeById(id: ID!): FuelType
+  gasStations(criteria: QueryCriteria): GasStationResult!
+  gasStationById(id: ID!): GasStation
+  pumps(criteria: QueryCriteria): PumpResult!
+  pumpById(id: ID!): Pump
+  images(criteria: QueryCriteria): ImageResult!
+  imageById(id: ID!): Image
+  roles(criteria: QueryCriteria): RoleResult!
+  roleById(id: ID!): Role
+  users(criteria: QueryCriteria): UserResult!
+  userById(id: ID!): User
+  fcmTokens(criteria: QueryCriteria): FcmTokenResult!
+  fcmTokenById(id: ID!): FcmToken
+  wallets(criteria: QueryCriteria): WalletResult!
+  walletById(id: ID!): Wallet
+  sellers(criteria: QueryCriteria): SellerResult!
+  sellerById(id: ID!): Seller
+  gasStationAdministrators(
+    criteria: QueryCriteria
+  ): GasStationAdministratorResult!
+  gasStationAdministratorById(id: ID!): GasStationAdministrator
+  coverageOperators(criteria: QueryCriteria): CoverageOperatorResult!
+  coverageOperatorById(id: ID!): CoverageOperator
+  investments(criteria: QueryCriteria): InvestmentResult!
+  investmentById(id: ID!): Investment
+  investmentTypes(criteria: QueryCriteria): InvestmentTypeResult!
+  investmentTypeById(id: ID!): InvestmentType
+  quotes(criteria: QueryCriteria): QuoteResult!
+  quoteById(id: ID!): Quote
+  gasTanks(criteria: QueryCriteria): GasTankResult!
+  gasTankById(id: ID!): GasTank
+  purchases(criteria: QueryCriteria): PurchaseResult!
+  purchaseById(id: ID!): Purchase
+  fuelExchanges(criteria: QueryCriteria): FuelExchangeResult!
+  fuelExchangeById(id: ID!): FuelExchange
+  cashWithdrawals(criteria: QueryCriteria): CashWithdrawalResult!
+  cashWithdrawalById(id: ID!): CashWithdrawal
+  transfers(criteria: QueryCriteria): TransferResult!
+  transferById(id: ID!): Transfer
+  transferWithdrawals(criteria: QueryCriteria): TransferWithdrawalResult!
+  transferWithdrawalById(id: ID!): TransferWithdrawal
+  shopPurchases(criteria: QueryCriteria): ShopPurchaseResult!
+  shopPurchaseById(id: ID!): ShopPurchase
+  refuels(criteria: QueryCriteria): RefuelResult!
+  refuelById(id: ID!): Refuel
+  operations(criteria: QueryCriteria): OperationResult!
+  operationTotalsByCustomer(criteria: QueryCriteria): OperationTotalsByCustomerResult! 
+  operationTotalsByFuelType(criteria: QueryCriteria): OperationTotalsByFuelTypeResult!   
+  notifications(criteria: QueryCriteria): NotificationResult!
+  notificationById(id: ID!): Notification
+  cashDeposits(criteria: QueryCriteria): CashDepositResult!
+  cashDepositById(id: ID!): CashDeposit
+  isGasStationInRadio(lat: Float!, lng: Float!, distance: Int!): Boolean!
+  termsAndConditions(criteria: QueryCriteria): TermsConditionsResult!
+  customerSearch(search: String!): [Customer]
+
+  """
+  Gives realtime information about the API.
+
+  Allowed Roles: [**ADMIN**]
+  """
+  apiInfo: APIInfo!
+}
+
+input FuelTypeInput {
+  id: ID
+  name: String!
+}
+
+input EditProfileInput {
+  firstName: String
+  lastName: String
+  documentNumber: String
+  cbu: String
+  cbuAlias: String
+  mercadopagoAccount: String
+}
+
+input UploadImageProfileInput {
+  image: String
+}
+
+type UploadImageProfileResult {
+  customer: Customer!
+}
+
+input CustomerInput {
+  id: ID
+  firstName: String
+  lastName: String
+  documentNumber: String
+  born: DateTime
+  phone: String
+  email: String
+}
+
+input GasStationInput {
+  id: ID
+  name: String
+  address: String
+  purchaseRequireAuthorization: Boolean
+}
+
+input PumpInput {
+  id: ID
+  externalId: String
+  gasStationId: ID!
+}
+
+input SellerInput {
+  id: ID
+  gasStationId: ID!
+  name: String!
+  username: String!
+  password: String!
+}
+
+input GasStationAdministratorInput {
+  id: ID
+  gasStationId: ID!
+  name: String!
+  username: String!
+  password: String!
+}
+
+input AdminInput {
+  id: ID
+  name: String!
+  username: String!
+  password: String!
+}
+
+input InvestmentTypeInput {
+  id: ID
+  name: String!
+}
+
+input QuoteInput {
+  id: ID
+  investmentTypeId: ID
+  price: Float
+  from: DateTime
+  to: DateTime
+  parentQuoteId: ID
+}
+
+input InvestmentInput {
+  id: ID
+  investmentTypeId: ID
+  movementType: InvestmentMovementType
+  stamp: DateTime
+  ammount: Float
+  quoteId: ID
+}
+
+input UserInput {
+  gasStationId: ID
+  username: String!
+  password: String!
+  role: UserRoles!
+  name: String!
+}
+
+input LoginInput {
+  username: String!
+  password: String!
+}
+
+input RegisterTokenInput {
+  token: String!
+}
+
+input UnregisterTokenInput {
+  token: String!
+}
+
+input UpdateGracePeriodInput {
+  value: Int!
+}
+
+type UpdateGracePeriodResult {
+  success: Boolean!
+}
+
+input UpdateExchangeGracePeriodInput {
+  value: Int!
+}
+
+type UpdateExchangeGracePeriodResult {
+  success: Boolean!
+}
+
+input UpdatePurchaseMaxLitresInput {
+  value: Int!
+}
+
+type UpdatePurchaseMaxLitresResult {
+  success: Boolean!
+}
+
+input UpdateWithdrawalMaxAmountInput {
+  value: Int!
+}
+
+type UpdateWithdrawalMaxAmountResult {
+  success: Boolean!
+}
+
+input UpdateWithdrawalAmountMultipleInput {
+  value: Int!
+}
+
+type UpdateWithdrawalAmountMultipleResult {
+  success: Boolean!
+}
+
+input UpdatePaymentInStoreLimitInput {
+  value: Int!
+}
+
+type UpdatePaymentInStoreLimitResult {
+  success: Boolean!
+}
+
+input UpdateContactHelpEmailsInput {
+  value: String!
+}
+
+type UpdateContactHelpEmailsResult {
+  success: Boolean!
+}
+
+input UpdateWithdrawalNotificationEmailsInput {
+  value: String!
+}
+
+type UpdateWithdrawalNotificationEmailsResult {
+  success: Boolean!
+}
+
+input UpdateAccountLitresLimitInput {
+  value: Int!
+}
+
+type UpdateAccountLitresLimitResult {
+  success: Boolean!
+}
+
+input UpdateWalletLitresLimitInput {
+  value: Int!
+}
+
+type UpdateWalletLitresLimitResult {
+  success: Boolean!
+}
+
+input HelpContactSendQueryInput {
+  message: String!
+  contactType: String!
+}
+
+type HelpContactSendQueryResult {
+  success: Boolean!
+}
+
+"Contains the authenticated user and a token bearer for secure requests"
+type LoginResult {
+  token: String!
+  user: User!
+}
+
+type RegisterTokenResult {
+  success: Boolean!
+}
+
+type UnregisterTokenResult {
+  success: Boolean!
+}
+
+input RegisterInput {
+  firstName: String!
+  lastName: String!
+  documentNumber: String!
+  born: Date!
+  phone: String!
+  username: String!
+  password: String!
+  dniFrontImage: String!
+  dniBackImage: String!
+  imagesRotation: Int
+}
+
+input ActivateAccountInput {
+  code: String!
+}
+
+type ActivateAccountResult {
+  success: Boolean!
+}
+
+input RequestResetPasswordCodeInput {
+  username: String!
+}
+
+type RequestResetPasswordCodeResult {
+  success: Boolean!
+}
+
+input ResetPasswordInput {
+  username: String!
+  code: String!
+  newPassword: String!
+}
+
+type ResetPasswordResult {
+  success: Boolean!
+}
+
+input ChangePasswordInput {
+  currentPassword: String!
+  newPassword: String!
+}
+
+type ChangePasswordResult {
+  success: Boolean!
+}
+
+type ResendActivationCodeResult {
+  success: Boolean!
+}
+
+input RequestAddFuelInput {
+  fuelTypeId: ID!
+  litres: Float!
+  paymentMethod: PaymentMethods!
+  gasStationId: ID
+}
+
+"Contains result of the operation"
+type RequestAddFuelResult {
+  purchase: Purchase!
+}
+
+input FuelExchangeInput {
+  sourceFuelTypeId: ID!
+  targetFuelTypeId: ID!
+  sourceLitres: Float!
+}
+
+"Contains result of the operation"
+type FuelExchangeResult {
+  ok: Boolean!
+  receiptId: String!
+}
+
+input RefuelInput {
+  fuelTypeId: ID!
+  pumpId: ID!
+}
+
+"Contains result of the operation"
+type RefuelResult {
+  refuel: Refuel
+}
+
+input WithdrawalInput {
+  fuelTypeId: ID!
+  amount: Int!
+  gasStationId: ID!
+}
+
+input TransferWithdrawalInput {
+  fuelTypeId: ID!
+  amount: Int!
+  accountType: String!
+}
+
+input TransferInput {
+  fuelTypeId: ID!
+  targetCustomerId: ID!
+  targetLitres: Float!
+}
+
+type TransferMutationResult {
+  transfer: Transfer
+}
+
+"Contains result of the operation"
+type WithdrawalResult {
+  withdrawal: CashWithdrawal
+}
+
+input ShopPurchaseInput {
+  fuelTypeId: ID!
+  amount: Int!
+  gasStationId: ID!
+}
+
+"Contains result of the operation"
+type ShopPurchaseResult {
+  shopPurchase: ShopPurchase
+}
+
+"Result of loading Demo Data"
+type DemoDataLoadResult {
+  ok: Boolean!
+}
+
+input RequestCashWithdrawalPaymentInput {
+  customerId: ID!
+  ammount: Float!
+}
+
+"Result of requesting a cash withdrawal payment"
+type RequestCashWithdrawalPaymentResult {
+  ok: Boolean!
+}
+
+input RequestShopPurchasePaymentInput {
+  customerId: ID!
+  ammount: Float!
+  description: String!
+}
+
+"Result of requesting a cash withdrawal payment"
+type RequestShopPurchasePaymentResult {
+  ok: Boolean!
+}
+
+input AcceptTransferWithdrawalInput {
+  id: ID!
+  code: String!
+}
+type AcceptTransferWithdrawalResult {
+  ok: Boolean!
+}
+
+input RejectTransferWithdrawalInput {
+  id: ID!
+}
+type RejectTransferWithdrawalResult {
+  ok: Boolean!
+}
+
+input RequestDniAuthorizationInput {
+  gasStationId: ID!
+}
+type RequestDniAuthorizationResult {
+  ok: Boolean!
+}
+
+input GrantDniAuthorizationInput {
+  id: ID!
+}
+type GrantDniAuthorizationResult {
+  ok: Boolean!
+}
+
+input RejectDniAuthorizationInput {
+  id: ID!
+}
+type RejectDniAuthorizationResult {
+  ok: Boolean!
+}
+
+input NotificationInput {
+  text: String!
+  title: String!
+}
+
+input CashDepositInput {
+  amount: Float!
+  stamp: DateTime!
+  receipt: String!
+}
+
+type Mutation {
+  """
+  Allows users to authenticate for secure requests
+  """
+  login(credentials: LoginInput): LoginResult
+  """
+  Allows users to register a Firebase Cloud Messaging Token
+  """
+  registerFcmToken(data: RegisterTokenInput): RegisterTokenResult
+  """
+  Allows users to unregister a Firebase Cloud Messaging Token
+  """
+  unregisterFcmToken(data: UnregisterTokenInput): UnregisterTokenResult
+  """
+  Requests the creation of a new customer
+  """
+  register(data: RegisterInput): LoginResult
+
+  """
+  Activates customer's account
+  """
+  activateAccount(data: ActivateAccountInput): ActivateAccountResult
+
+  """
+  Activates customer's account
+  """
+  resendActivationCode: ResendActivationCodeResult
+
+  requestResetPasswordCode(
+    data: RequestResetPasswordCodeInput
+  ): RequestResetPasswordCodeResult
+
+  resetPassword(data: ResetPasswordInput): ResetPasswordResult
+
+  changePassword(data: ChangePasswordInput): ChangePasswordResult
+
+  updateGracePeriod(data: UpdateGracePeriodInput): UpdateGracePeriodResult
+
+  updateExchangeGracePeriod(
+    data: UpdateExchangeGracePeriodInput
+  ): UpdateExchangeGracePeriodResult
+
+  updatePurchaseMaxLitres(
+    data: UpdatePurchaseMaxLitresInput
+  ): UpdatePurchaseMaxLitresResult
+
+  updateWithdrawalMaxAmount(
+    data: UpdateWithdrawalMaxAmountInput
+  ): UpdateWithdrawalMaxAmountResult
+
+  updateWithdrawalAmountMultiple(
+    data: UpdateWithdrawalAmountMultipleInput
+  ): UpdateWithdrawalAmountMultipleResult
+
+  updatePaymentInStoreLimit(
+    data: UpdatePaymentInStoreLimitInput
+  ): UpdatePaymentInStoreLimitResult
+
+  updateAccountLitresLimit(
+    data: UpdateAccountLitresLimitInput
+  ): UpdateAccountLitresLimitResult
+
+  updateWalletLitresLimit(
+    data: UpdateWalletLitresLimitInput
+  ): UpdateWalletLitresLimitResult
+
+  updateContactHelpEmails(
+    data: UpdateContactHelpEmailsInput
+  ): UpdateContactHelpEmailsResult
+
+  updateWithdrawalNotificationEmails(
+    data: UpdateWithdrawalNotificationEmailsInput
+  ): UpdateWithdrawalNotificationEmailsResult
+
+  HelpCustomerSendQuery(
+    data: HelpContactSendQueryInput
+  ): HelpContactSendQueryResult
+  """
+  Adds fuel to a customer's wallet
+  """
+  requestAddFuelToWallet(data: RequestAddFuelInput): RequestAddFuelResult
+  """
+  Allow gas station sellers to request a cash withdrawal payment
+  """
+  requestCashWithdrawalPayment(
+    data: RequestCashWithdrawalPaymentInput
+  ): RequestCashWithdrawalPaymentResult
+  """
+  Allow gas station sellers to request a shop purchase payment
+  """
+  requestShopPurchasePayment(
+    data: RequestShopPurchasePaymentInput
+  ): RequestShopPurchasePaymentResult
+
+  """
+  Allows customers to exchange fuel from one type to another
+  """
+  exchangeFuel(data: FuelExchangeInput): FuelExchangeResult
+  """
+  Allows customers to consume their purchased fuel and load it into their vehicles from a gas station
+  """
+  refuel(data: RefuelInput): RefuelResult
+  """
+  Allows customers to exchange their available fuel for money
+  """
+  withdrawal(data: WithdrawalInput): WithdrawalResult
+  transferWithdrawal(data: TransferWithdrawalInput): WithdrawalResult
+  acceptTransferWithdrawal(
+    data: AcceptTransferWithdrawalInput
+  ): AcceptTransferWithdrawalResult
+  rejectTransferWithdrawal(
+    data: RejectTransferWithdrawalInput
+  ): RejectTransferWithdrawalResult
+
+  shopPurchase(data: ShopPurchaseInput): ShopPurchaseResult
+  """
+  Allows customers to request authorization to continue operations by showing their dni
+  """
+  requestDniAuthorization(
+    data: RequestDniAuthorizationInput
+  ): RequestDniAuthorizationResult
+  """
+  Allows sellers to grant authorization to continue operations by looking at customer's dni
+  """
+  grantDniAuthorization(
+    data: GrantDniAuthorizationInput
+  ): GrantDniAuthorizationResult
+  """
+  Allows customers to request authorization to continue operations by showing their dni
+  """
+  rejectDniAuthorization(
+    data: RejectDniAuthorizationInput
+  ): RejectDniAuthorizationResult
+
+  transfer(data: TransferInput): TransferMutationResult
+  """
+  Allows the loading of demo data [Only Available in Development]
+  """
+  loadDemoData: DemoDataLoadResult
+  """
+  Customer CRUD Operations
+  """
+  fuelTypeEdit(data: FuelTypeInput): FuelType
+  
+  customerEdit(data: CustomerInput): Customer
+
+  gasStationEdit(data: GasStationInput): GasStation
+
+  gasStationCreate(data: GasStationInput): GasStation
+
+  pumpEdit(data: PumpInput): Pump
+
+  pumpCreate(data: PumpInput): Pump
+
+  sellerEdit(data: SellerInput): Seller
+
+  sellerCreate(data: SellerInput): Seller
+
+  gasStationAdministratorEdit(
+    data: GasStationAdministratorInput
+  ): GasStationAdministrator
+
+  gasStationAdministratorCreate(
+    data: GasStationAdministratorInput
+  ): GasStationAdministrator
+
+  adminEdit(data: AdminInput): User
+
+  adminCreate(data: AdminInput): User
+
+  investmentTypeEdit(data: InvestmentTypeInput): InvestmentType
+
+  investmentTypeCreate(data: InvestmentTypeInput): InvestmentType
+
+  quoteEdit(data: QuoteInput): Quote
+
+  quoteCreate(data: QuoteInput): Quote
+
+  investmentEdit(data: InvestmentInput): Investment
+
+  investmentCreate(data: InvestmentInput): Investment
+
+  userCreate(data: UserInput): User
+
+  notificationCreate(data: NotificationInput): Notification
+
+  cashDepositCreate(data: CashDepositInput): CashDeposit
+
+  editProfile(data: EditProfileInput): Customer
+
+  uploadImageProfile(data: UploadImageProfileInput): UploadImageProfileResult
+}
+
+type Subscription {
+  authorizationRequested(gasStationId: ID!): Authorization
+  transferWithdrawalRequested: TransferWithdrawal
+}

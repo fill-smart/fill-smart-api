@@ -1,0 +1,110 @@
+{
+    "acquirer": null,
+    "acquirer_reconciliation": [],
+    "additional_info": {
+        "available_balance": null,
+        "ip_address": "186.182.202.248",
+        "nsu_processadora": null
+    },
+    "authorization_code": "1234567",
+    "binary_mode": false,
+    "call_for_authorize_id": null,
+    "captured": true,
+    "card": {
+        "cardholder": {
+            "identification": {
+                "number": "12345678",
+                "type": "DNI"
+            },
+            "name": "APRO"
+        },
+        "date_created": "2020-02-04T17:00:41.000-04:00",
+        "date_last_updated": "2020-02-05T09:00:47.000-04:00",
+        "expiration_month": 11,
+        "expiration_year": 2025,
+        "first_six_digits": "546553",
+        "id": "8814681679",
+        "last_four_digits": "0176"
+    },
+    "collector_id": 522546691,
+    "corporation_id": "true",
+    "counter_currency": null,
+    "coupon_amount": 0,
+    "currency_id": "ARS",
+    "date_approved": "2020-02-05T09:08:49.000-04:00",
+    "date_created": "2020-02-05T09:08:48.000-04:00",
+    "date_last_updated": "2020-02-05T09:08:49.000-04:00",
+    "date_of_expiration": null,
+    "deduction_schema": null,
+    "description": "Nafta Super",
+    "differential_pricing_id": null,
+    "external_reference": null,
+    "fee_details": [
+        {
+            "amount": 64.9,
+            "fee_payer": "collector",
+            "type": "mercadopago_fee"
+        }
+    ],
+    "id": 5879339703,
+    "installments": 1,
+    "integrator_id": "true",
+    "issuer_id": "1007",
+    "live_mode": true,
+    "marketplace_owner": null,
+    "merchant_account_id": null,
+    "merchant_number": null,
+    "metadata": {},
+    "money_release_date": "2020-02-19T09:08:49.000-04:00",
+    "money_release_schema": null,
+    "notification_url": "http://69d7db6a.ngrok.io/ipn/220",
+    "operation_type": "regular_payment",
+    "order": {
+        "id": "1219181045",
+        "type": "mercadopago"
+    },
+    "payer": {
+        "email": "test_user_52650551@testuser.com",
+        "entity_type": null,
+        "first_name": "Test",
+        "id": "522550305",
+        "identification": {
+            "number": "1111111",
+            "type": "DNI"
+        },
+        "last_name": "Test",
+        "operator_id": null,
+        "phone": {
+            "area_code": "01",
+            "extension": null,
+            "number": "1111-1111"
+        },
+        "type": "registered"
+    },
+    "payment_method_id": "master",
+    "payment_type_id": "credit_card",
+    "platform_id": "true",
+    "pos_id": null,
+    "processing_mode": "aggregator",
+    "refunds": [],
+    "shipping_amount": 0,
+    "sponsor_id": null,
+    "statement_descriptor": "TETE3544908",
+    "status": "approved",
+    "status_detail": "accredited",
+    "store_id": null,
+    "taxes_amount": 0,
+    "transaction_amount": 1538,
+    "transaction_amount_refunded": 0,
+    "transaction_details": {
+        "acquirer_reference": null,
+        "external_resource_url": null,
+        "financial_institution": null,
+        "installment_amount": 1538,
+        "net_received_amount": 1473.1,
+        "overpaid_amount": 0,
+        "payable_deferral_period": null,
+        "payment_method_reference_id": "1234567",
+        "total_paid_amount": 1538
+    }
+}

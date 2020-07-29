@@ -1,7 +1,7 @@
 import { DocumentType } from './document-type.model';
 import { Image } from "./image.model";
-import { Entity, Column, ManyToOne, ManyToMany } from "typeorm";
-import { BaseModel } from "../base.model";
+import { Entity, Column, ManyToOne, ManyToMany, OneToOne } from "typeorm";
+import { BaseModel } from './../../../core/models/base.model';
 import { Customer } from './customer.model';
 
 @Entity()
@@ -12,13 +12,13 @@ export class Document extends BaseModel {
     @Column("varchar")
     documentData: string = "";
 
-    @ManyToOne(_ => Image)
+    @OneToOne(_ => Image, "document")
     image?: Promise<Image>;
 
     @ManyToOne(_ => DocumentType)
     documentType?: Promise<DocumentType>;
 
-    @ManyToMany(_ => Customer)
+    @ManyToOne(_ => Customer)
     customer?: Promise<Customer>;
 
 }
