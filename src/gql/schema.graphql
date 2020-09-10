@@ -548,8 +548,10 @@ type Operation {
   targetCustomerFirstName: String
   targetCustomerLastName: String
   targetCustomerDocumentNumber: String
+  targetUserId: Int
   transferWithdrawalId: ID
   transferWithdrawalAuthorized: Boolean
+  purchaseStatus: String
   transactionId: String!
 }
 
@@ -1135,6 +1137,7 @@ type RequestShopPurchasePaymentResult {
 input AcceptTransferWithdrawalInput {
   id: ID!
   code: String!
+  fileList:[Upload!]!
 }
 type AcceptTransferWithdrawalResult {
   ok: Boolean!

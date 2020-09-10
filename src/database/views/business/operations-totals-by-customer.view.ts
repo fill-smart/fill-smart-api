@@ -4,7 +4,6 @@ import {
     ViewColumn,
     PrimaryColumn,
 } from "typeorm";
-import { BaseModel } from "./../../../core/models/base.model";
 
 
 @ViewEntity({

@@ -1,7 +1,5 @@
-import { Document } from "./document.model";
 import { BaseModel } from "../../../core/models/base.model";
 import { Wallet } from "./wallet.model";
-import { User } from "./user.model";
 import {
     Entity,
     Column,
@@ -10,20 +8,28 @@ import {
     JoinColumn,
     ManyToOne,
 } from "typeorm";
-import { CashWithdrawal } from "./cash-withdrawal.model";
-import { Customer } from "./customer.model";
+
+
+export enum TransferTypeEnum {
+    In = "in",
+    Out = "out"
+}
 
 @Entity()
 export class Transfer extends BaseModel {
-    @Column("datetime", {nullable: true})
+    @Column("datetime", {nullable: false})
     stamp: Date = new Date();
 
     @Column("double")
-    targetLitres: number = 0;
+    litres: number = 0;
 
-    @ManyToOne(_ => Wallet)
-    sourceWallet?: Promise<Wallet>;
+    @Column("varchar")
+    type: TransferTypeEnum = TransferTypeEnum.In;
 
-    @ManyToOne(_ => Wallet)
-    targetWallet?: Promise<Wallet>;
+    @ManyToOne(_ => Wallet, {nullable: false})
+    wallet?: Promise<Wallet>;
+
+    @OneToOne(_ => Transfer, "transfer")
+    @JoinColumn()
+    transfer?: Promise<Transfer>;
 }

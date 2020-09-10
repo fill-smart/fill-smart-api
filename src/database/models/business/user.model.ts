@@ -17,7 +17,7 @@ import { TransferWithdrawal } from './transfer-withdrawal.model';
 
 @Entity()
 export class User extends BaseModel {
-  @Column("varchar", { unique: true })
+  @Column("varchar", { unique: false })
   username: string = "";
 
   @Column("varchar")

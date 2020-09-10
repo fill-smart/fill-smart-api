@@ -11,6 +11,8 @@ import { getCurrentEnvironmentalConfig } from "./../core/env/env";
 import { Wallet } from "./../database/models/business/wallet.model";
 import { getManager, EntityManager } from "typeorm";
 import moment from "moment";
+import { CashWithdrawal } from "../database/models/business/cash-withdrawal.model";
+import { TransferWithdrawal } from "../database/models/business/transfer-withdrawal.model";
 
 export interface IAddFuelToWalletInput {
   walletId: number;
@@ -26,10 +28,10 @@ export const WalletFunctions = {
       if (!gracePeriod) {
         throw "Grace period is not set";
       }
-      const transferGracePeriod = await Parameter.getByName(
+      const exchangeGracePeriod = await Parameter.getByName(
         ParametersEnum.ExchangeGracePeriod
       );
-      if (!transferGracePeriod) {
+      if (!exchangeGracePeriod) {
         throw "Transfer grace period is not set";
       }
       const limitDay = moment(dueDate)
@@ -37,7 +39,7 @@ export const WalletFunctions = {
         .endOf("day")
         .toDate();
       const transferLimitDay = moment(dueDate)
-        .subtract(transferGracePeriod.numberValue as number, "days")
+        .subtract(exchangeGracePeriod.numberValue as number, "days")
         .endOf("day")
         .toDate();
       const status = PurchaseStatusEnum.Completed;
@@ -55,17 +57,28 @@ export const WalletFunctions = {
         .getRawOne();
 
       const {
-        transferLitresInGracePeriod
-      }: { transferLitresInGracePeriod: number } = await getManager()
+        exchangeLitresInGracePeriod
+      }: { exchangeLitresInGracePeriod: number } = await getManager()
         .createQueryBuilder(FuelExchange, "e")
-        .select("sum(e.targetLitres)", "transferLitresInGracePeriod")
+        .select("sum(e.targetLitres)", "exchangeLitresInGracePeriod")
         .leftJoin("e.targetWallet", "w")
         .where("e.stamp > :transferLimitDay and w.id = :walletId", {
           transferLimitDay,
           walletId
         })
         .getRawOne();
-      const availableLts = wallet.litres - litresInGracePeriod - transferLitresInGracePeriod;
+      
+      const {
+        pendingTransferWithdrawalsLitres
+    }: { pendingTransferWithdrawalsLitres: number }= await getManager()
+      .createQueryBuilder(TransferWithdrawal, "t")
+      .select("sum(w.litres)", "pendingTransferWithdrawalsLitres")
+      .innerJoin("t.withdrawal", "w")
+      .innerJoin("w.wallet", "wallet")
+      .where("t.authorized is null and wallet.id = :walletId", { walletId })
+      .getRawOne();
+
+      const availableLts = wallet.litres - litresInGracePeriod - exchangeLitresInGracePeriod - pendingTransferWithdrawalsLitres;
       return availableLts > 0 ? availableLts : 0;
 
     } catch (e) {

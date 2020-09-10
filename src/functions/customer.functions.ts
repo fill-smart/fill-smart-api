@@ -60,10 +60,11 @@ import Jimp from "jimp";
 import { ParametersEnum, Parameter } from "../core/models/system/parameter.model";
 import e from "express";
 import { TransferWithdrawal } from "../database/models/business/transfer-withdrawal.model";
-import { Transfer } from "../database/models/business/transfer.model";
+import { Transfer, TransferTypeEnum } from "../database/models/business/transfer.model";
 import { SendFcmToCustomer } from "../firebase/firebase";
 import { Notification } from "../database/models/business/notification.model";
 import { Notifications } from "../firebase/fcm-notifications";
+import { WalletFunctions } from "./wallet.functions";
 
 export interface IAddFuelRequest {
   fuelTypeId: number;
@@ -152,6 +153,15 @@ export const CustomerFunctions = {
       try {
         await getManager().transaction(async em => {
           const user = new User();
+          const existingUser = await em
+                .createQueryBuilder(User, "u")
+                .innerJoin("u.customer", "c")
+                .where("u.username = :username", { username: data.username })
+                .andWhere("c.status = :status", { status: AccountStatusEnum.Active })
+                .getOne();
+          if (existingUser) {
+            throw "User already exists."
+          }
           user.username = data.username;
           user.roles = Promise.resolve([
             await Role.getByName(RolesEnum.Customer, em)
@@ -238,7 +248,7 @@ export const CustomerFunctions = {
 
           await Mailer.sendActivationCode(activationCode, data.username);
 
-          const secretTokeSign = (await getCurrentEnvironmentalConfig())
+          const secretTokenSign = (await getCurrentEnvironmentalConfig())
             .secretToken;
           const subinfo = <GraphQLPartialResolveInfo>(
             getInfoFromSubfield("user", info)
@@ -259,7 +269,7 @@ export const CustomerFunctions = {
                 username: savedUser.username,
                 roles: (await savedUser.roles)?.map(role => role.name)
               },
-              secretTokeSign
+              secretTokenSign
             )
           });
         });
@@ -1050,6 +1060,10 @@ export const CustomerFunctions = {
             )
           );
 
+          if (targetCustomer.status !== AccountStatusEnum.Active) {
+            throw "Target account must be active.";
+          }
+
           const targetCustomerWallets = <Wallet[]>await targetCustomer.wallets
           const litresInAccount = targetCustomerWallets.reduce((previous, current) => (current.litres + previous), 0);
 
@@ -1061,12 +1075,24 @@ export const CustomerFunctions = {
             throw "Wallet liter limit exceeded.";
           }
 
-          const transfer = new Transfer();
-          transfer.stamp = moment().toDate();
-          transfer.sourceWallet = Promise.resolve(sourceWallet);
-          transfer.targetWallet = Promise.resolve(targetWallet);
-          transfer.targetLitres = data.targetLitres;
-          const savedTransfer = await em.save(transfer);
+          if (data.targetLitres > await WalletFunctions.availableLitres(sourceWallet.id as number)) {
+            throw "Target litres exceed available amount in source wallet";
+          }
+
+          const inTransfer = new Transfer();
+          inTransfer.type = TransferTypeEnum.In;
+          inTransfer.stamp = moment().toDate();
+          inTransfer.wallet = Promise.resolve(targetWallet);
+          inTransfer.litres = data.targetLitres;
+          const savedInTransfer = await em.save(inTransfer);
+
+          const outTransfer = new Transfer();
+          outTransfer.type = TransferTypeEnum.Out;
+          outTransfer.stamp = inTransfer.stamp;
+          outTransfer.wallet = Promise.resolve(sourceWallet);
+          outTransfer.litres = data.targetLitres;
+          outTransfer.transfer = Promise.resolve(savedInTransfer);
+          await em.save(outTransfer);
 
           sourceWallet.litres -= data.targetLitres;
           await em.save(sourceWallet);
@@ -1078,7 +1104,7 @@ export const CustomerFunctions = {
           );
           const populatedTransfer = <Transfer>(
             await EntityToGraphResolver.find<Transfer>(
-              savedTransfer.id as number,
+              (await savedInTransfer).id as number,
               Transfer,
               subinfo,
               em
@@ -1108,9 +1134,13 @@ export const CustomerFunctions = {
     { user }: { user: IDecodedToken }
   ) => {
       try {
-        return await getManager().getRepository(Customer)
+        const em = getManager();
+        const currentCustomer = await Customer.getByUser(user.id, em);
+        return await em.getRepository(Customer)
         .createQueryBuilder("customer")
         .where("customer.document_number = :document", { document: search })
+        .andWhere("customer.status = :status", { status: AccountStatusEnum.Active })
+        .andWhere("customer.id <> :currentCustomerId", { currentCustomerId: currentCustomer ? currentCustomer.id : 0 })
         .getMany();
       } catch (ex) {
         throw(ex);

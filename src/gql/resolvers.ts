@@ -140,7 +140,7 @@ import {
 } from "../functions/help-customer.function";
 import { OperationTotalsByCustomer } from '../database/views/business/operations-totals-by-customer.view';
 import { TransferWithdrawal } from '../database/models/business/transfer-withdrawal.model';
-import { TransferWithdrawalFunctions } from '../functions/transfer-withdrawal.functions';
+import { TransferWithdrawalFunctions, ApolloUploadedFile } from '../functions/transfer-withdrawal.functions';
 import { Transfer } from '../database/models/business/transfer.model';
 
 export const AUTHORIZATION_REQUESTED = "AUTHORIZATION_REQUESTED";
@@ -1227,13 +1227,13 @@ export const gqlResolvers = {
     },
     acceptTransferWithdrawal: async (
       _: any,
-      { data }: { data: { id: number, code: string } },
+      { data }: { data: { id: number, code: string, fileList: ApolloUploadedFile[] } },
       context: { user: IDecodedToken },
       info: any
     ) => {
       SecurityFunctions.mustBeAuthenticated(context);
       SecurityFunctions.mustHaveRole(context, RolesEnum.Administrator);
-      return TransferWithdrawalFunctions.acceptTransferWithdrawal(data.id, data.code, context.user.id);
+      return TransferWithdrawalFunctions.acceptTransferWithdrawal(data.id, data.code, context.user.id, data.fileList);
     },
     rejectTransferWithdrawal: async (
       _: any,
