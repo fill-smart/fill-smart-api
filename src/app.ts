@@ -78,8 +78,8 @@ startServer()
       initializeMaintenanceChecker();
       scheduleCronJobs();
       await MercadoPago.Initialize();
-      const operations = await getManager().createQueryBuilder(Operation,"o").getCount();
-      console.log("operations: ", operations);
+      /*const operations = await getManager().createQueryBuilder(Operation,"o").getCount();
+      console.log("operations: ", operations);*/
     } catch (e) {
       throw e;
     }

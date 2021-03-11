@@ -14,6 +14,7 @@ ipnHandler.post("/api/ipn/:purchaseId", async (req: Request, res: Response) => {
     const paymentId: number = +(req.query["data.id"] || req.query.id);
     const topic: string = req.query.topic || req.query.type;
     const purchaseId: number = +req.params.purchaseId;
+    console.log("Entrooo ipn:", `paymentId: ${paymentId}, topic: ${topic}, purchaseId: ${purchaseId}`);
     res.status(200).send();
     if (topic === "payment") {
         try {

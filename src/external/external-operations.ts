@@ -32,21 +32,29 @@ export const getLastPumpOperation = async (
 ): Promise<Omit<IPumpOperation, "fuelTypeId"> | null> => {
     try {
         const pump = <Pump>await Pump.getById(pumpId);
-        const gasStation = await pump.gasStation;
-        const { pumpExternalId } = <{ pumpExternalId: string }>(
-            await getManager()
-                .createQueryBuilder(Pump, "p")
-                .select("p.externalId", "pumpExternalId")
-                .where("p.id = :id", { id: pumpId })
-                .getRawOne()
-        );
-        const wsResponse = await callGetPumpLastOperation(pumpExternalId);
+        // const gasStation = await pump.gasStation;
+        // const { pumpExternalId } = <{ pumpExternalId: string }>(
+        //     await getManager()
+        //         .createQueryBuilder(Pump, "p")
+        //         .select("p.externalId", "pumpExternalId")
+        //         .where("p.id = :id", { id: pumpId })
+        //         .getRawOne()
+        // );
+        const wsResponse = await callGetPumpLastOperation(pump.externalId);
+        console.log("esto es lo que devuelve la llamada wsResponse", wsResponse);
         if (
             !wsResponse ||
             !wsResponse.success ||
             !(wsResponse.value.length > 0)
         ) {
-            return null;
+            return <Omit<IPumpOperation, "fuelTypeId">>{
+                id: 0,
+                stamp: new Date(),
+                fuelType: <FuelType>{ id: 0, name: "" },
+                fuelPrice: 0,
+                total: 0,
+                litres: 0
+            };
         }
         const operation = wsResponse.value[0];
         const fuelTypeId = await externalCodeToInternalFuelTypeId(
@@ -151,7 +159,7 @@ export const callGetPumpLastOperation = (
                     strictSSL: false
                 },
                 (err, res, body) => {
-                    if (err) reject(err);
+                    if (err) reject(null);
                     resolve(
                         <IResult<Array<IPumpLastOperationWSResult>>>(
                             JSON.parse(body)

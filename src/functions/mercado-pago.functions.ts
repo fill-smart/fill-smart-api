@@ -57,9 +57,9 @@ export const MercadoPago = {
                 mercadopago.preferences.create(
                     data,
                     undefined,
-                    (err: any, { body }: { body: Preference }) => {
+                    (err: any, response: any) => {
                         if (err) return reject(err);
-                        return resolve(body);
+                        return resolve(response.body);
                     }
                 );
             });
@@ -77,9 +77,9 @@ export const MercadoPago = {
                 mercadopago.payment.get(
                     id,
                     undefined,
-                    (err: any, { body }: { body: Payment }) => {
+                    (err: any, response: any) => {
                         if (err) return reject(err);
-                        return resolve(body);
+                        return resolve(response.body);
                     }
                 );
             });

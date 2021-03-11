@@ -552,6 +552,8 @@ type Operation {
   transferWithdrawalId: ID
   transferWithdrawalAuthorized: Boolean
   purchaseStatus: String
+  mpPaymentId: String
+  mpPaymentMethodId: String
   transactionId: String!
 }
 
@@ -578,7 +580,7 @@ type OperationTotalsByFuelTypeResult {
 }
 
 "Contains total sold and delivered by customer [READONLY]"
-type OperationTotalsByCustomer {  
+type OperationTotalsByCustomer {
   customerDocumentNumber: Int!
   customerFirstName: String!
   customerLastName: String!
@@ -751,8 +753,12 @@ type Query {
   refuels(criteria: QueryCriteria): RefuelResult!
   refuelById(id: ID!): Refuel
   operations(criteria: QueryCriteria): OperationResult!
-  operationTotalsByCustomer(criteria: QueryCriteria): OperationTotalsByCustomerResult! 
-  operationTotalsByFuelType(criteria: QueryCriteria): OperationTotalsByFuelTypeResult!   
+  operationTotalsByCustomer(
+    criteria: QueryCriteria
+  ): OperationTotalsByCustomerResult!
+  operationTotalsByFuelType(
+    criteria: QueryCriteria
+  ): OperationTotalsByFuelTypeResult!
   notifications(criteria: QueryCriteria): NotificationResult!
   notificationById(id: ID!): Notification
   cashDeposits(criteria: QueryCriteria): CashDepositResult!
@@ -777,7 +783,6 @@ input FuelTypeInput {
 input EditProfileInput {
   firstName: String
   lastName: String
-  documentNumber: String
   cbu: String
   cbuAlias: String
   mercadopagoAccount: String
@@ -1137,7 +1142,7 @@ type RequestShopPurchasePaymentResult {
 input AcceptTransferWithdrawalInput {
   id: ID!
   code: String!
-  fileList:[Upload!]!
+  fileList: [Upload!]!
 }
 type AcceptTransferWithdrawalResult {
   ok: Boolean!
@@ -1325,7 +1330,7 @@ type Mutation {
   Customer CRUD Operations
   """
   fuelTypeEdit(data: FuelTypeInput): FuelType
-  
+
   customerEdit(data: CustomerInput): Customer
 
   gasStationEdit(data: GasStationInput): GasStation
